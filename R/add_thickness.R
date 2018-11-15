@@ -4,7 +4,7 @@
 #' @param thick_col
 #' @param parameters
 #' 
-add_thickness <- function(file, id_col = 1, thick_col = 2, parameters, verbose = TRUE) {
+add_thickness <- function(file, id_col, thick_col, parameters, verbose = TRUE) {
   
   thick_list <- readr::read_csv(file) %>% as.data.frame
   thicknesses <- data.frame(ids = thick_list[,id_col],

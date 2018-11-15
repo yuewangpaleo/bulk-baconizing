@@ -57,9 +57,8 @@ Here we download the sedimentary data.  The core component here is the `get_data
 # Define using state names here, but basically can be a change in the
 # parameters passed to get_dataset.
 
-dataset_list <- get_dataset(datasettype='pollen',
-                            gpid = c('Michigan'),
-                            ageyoung=0)
+raw_pollen <- readRDS("./data/pollen_v1.RDS")
+dataset_list <- get_dataset(raw_pollen)
 
 #  The load_pollen() function will download the pollen datasets if either:
 #  there is not currently a downloaded object saved with the same dataset version
@@ -155,8 +154,8 @@ if(is.null(settings$thickness) | settings$thickness == FALSE | "character" %in% 
   if ("character" %in% class(settings$thickness)) {
     if (file.exists(settings$thickness)) {
       params <- add_thickness(file = settings$thickness,
-                              id_col = 1,
-                              thick_col = 4,
+                              id_col = 5,
+                              thick_col = 7,
                               parameters = params)
     } else {
       stop("The file defined in `settings.yaml` does not exist.")
@@ -181,8 +180,8 @@ if(is.null(settings$accumulation) | settings$accumulation == FALSE | "character"
   if ("character" %in% class(settings$accumulation)) {
     if (file.exists(settings$accumulation)) {
       params <- add_accumulation(file = settings$accumulation,
-                              id_col = 1,
-                              accum_col = 4,
+                              id_col = 5,
+                              accum_col = 6,
                               parameters = params)
     } else {
       stop("The file defined in `settings.yaml` does not exist.")
