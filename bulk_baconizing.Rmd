@@ -58,7 +58,7 @@ Here we download the sedimentary data.  The core component here is the `get_data
 # parameters passed to get_dataset.
 
 raw_pollen <- readRDS("./data/pollen_v1.RDS")
-dataset_list <- get_dataset(raw_pollen)[1:10]
+dataset_list <- get_dataset(raw_pollen)[417:465]
 
 #  The load_pollen() function will download the pollen datasets if either:
 #  there is not currently a downloaded object saved with the same dataset version

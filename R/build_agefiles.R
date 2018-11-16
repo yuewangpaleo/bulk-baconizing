@@ -51,8 +51,7 @@ build_agefiles <- function(param, datasets, downloads, ageorder = NULL, settings
         # Date is the same, differentiate by chronology ID:
         chronid <- sapply(chrons$chronologies, function(x) x$chronologyid)
         
-        modeldefault$default <- new_default &
-          max_chron == max(chronid)
+        modeldefault$default <- new_default & chronid == max(chronid)
         
         param$notes <- add_msg(param$notes, 'There are multiple default models defined for the best age type: Default assigned to most model with highest chronologyid')
       }
