@@ -19,7 +19,7 @@ add_thickness <- function(file, id_col, thick_col, parameters, verbose = TRUE) {
                           msg = "None of the dataset ids in the thickness file are in the parameter file.")
   
   thicknesses <- thicknesses %>% 
-    filter(ids %in% parameters$datasetid & thick %in% parameters$thick)
+    filter(ids %in% parameters$datasetid & !(thick %in% parameters$thick))
   
   if (verbose) {
     message(paste0("Modifying ", nrow(thicknesses), " records to update thicknesses."))

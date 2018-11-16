@@ -4,7 +4,7 @@
 #' @param accum_col
 #' @param parameters
 #'
-add_accumulation <- function(file, id_col = 1, accum_col = 2, parameters, verbose = TRUE) {
+add_accumulation <- function(file, id_col, accum_col, parameters, verbose = TRUE) {
 
   accum_list <- readr::read_csv(file) %>% as.data.frame
   accumulations <- data.frame(ids = accum_list[,id_col],
@@ -19,7 +19,7 @@ add_accumulation <- function(file, id_col = 1, accum_col = 2, parameters, verbos
                           msg = "None of the dataset ids in the accumulation file are in the parameter file.")
 
   accumulations <- accumulations %>%
-    filter(ids %in% parameters$datasetid & accum %in% parameters$acc.shape.old)
+    filter(ids %in% parameters$datasetid & !(accum %in% parameters$acc.mean.old))
 
   if (verbose) {
     message(paste0("Modifying ", nrow(accumulations), " records to update accumulations."))
@@ -27,7 +27,7 @@ add_accumulation <- function(file, id_col = 1, accum_col = 2, parameters, verbos
 
   param_rows <- match(accumulations$ids, params$datasetid)
 
-  parameters$acc.shape.old[param_rows] <- accumulations$accum
+  parameters$acc.mean.old[param_rows] <- accumulations$accum
 
   parameters$notes[param_rows] <- add_msg(parameters$notes[param_rows],
                                           'Accumulation adjusted based on prior work.')
