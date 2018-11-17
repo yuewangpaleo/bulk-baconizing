@@ -1,4 +1,4 @@
-build_agefiles <- function(param, datasets, downloads, ageorder = NULL, settings, verbose = TRUE) {
+build_agefiles <- function(param, datasets, downloads, ageorder = NULL, settings, topdepth, botdepth, verbose = TRUE) {
   
   if(!(is.na(param$suitable)) & 
      param$suitable == 1 & 
@@ -95,7 +95,8 @@ build_agefiles <- function(param, datasets, downloads, ageorder = NULL, settings
   did_char <- as.character(param$datasetid)
   
   handle <- datasets[[did_char]]$dataset.meta$collection.handle
-  depths <- data.frame(depths = downloads[[did_char]]$sample.meta$depth)
+  depth <- data.frame(depths = downloads[[did_char]]$sample.meta$depth)
+  depth <- subset(depth, depths >= topdepth & depths <= botdepth)
   ages <- data.frame(ages = downloads[[did_char]]$sample.meta$age)
   
   agetypes <- sapply(chrons[[2]], function(x) x$agetype)
@@ -153,7 +154,7 @@ build_agefiles <- function(param, datasets, downloads, ageorder = NULL, settings
       }
       
       readr::write_csv(x = ages, path = paste0('Cores/', handle, '/', handle, '.csv'), col_names = TRUE)
-      readr::write_csv(x = depths, path = paste0('Cores/', handle, '/', handle, '_depths.txt'), col_names = FALSE)
+      readr::write_csv(x = depth, path = paste0('Cores/', handle, '/', handle, '_depths.txt'), col_names = FALSE)
       
     } else {
       param$notes <- add_msg(param$notes, 'Error processing the age file.')

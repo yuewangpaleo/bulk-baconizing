@@ -2,7 +2,7 @@
 clean_run: false
 
 #  What version of the run is this?  This will create a new parameters file if none exists.
-version: 1
+version: 2
 
 # If a parameters file exists with the current version number should that file overwritten?
 reset_parameters: true
@@ -17,12 +17,18 @@ date: 'today'
 modern: true
 
 # Prior thickness
-thickness: data/SiteInfo_fullcore.csv
+thickness: data/SiteInfo_partcore.csv
 
 # Settlement indicators
 settlement: data/expert_assessment.csv
 
 # Prior accumulation
-accumulation: data/SiteInfo_fullcore.csv
+accumulation: data/SiteInfo_partcore.csv
+
+# Age model section top depth
+topdepth: data/SiteInfo_partcore.csv
+
+# Age model section bottom depth
+botdepth: data/SiteInfo_partcore.csv
 
 parallel: 3

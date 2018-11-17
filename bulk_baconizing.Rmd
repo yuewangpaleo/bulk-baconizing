@@ -57,8 +57,8 @@ Here we download the sedimentary data.  The core component here is the `get_data
 # Define using state names here, but basically can be a change in the
 # parameters passed to get_dataset.
 
-raw_pollen <- readRDS("./data/pollen_v1.RDS")
-dataset_list <- get_dataset(raw_pollen)[417:465]
+raw_pollen <- readRDS("./data/pollen_v2.RDS")
+dataset_list <- get_dataset(raw_pollen)[1:10]
 
 #  The load_pollen() function will download the pollen datasets if either:
 #  there is not currently a downloaded object saved with the same dataset version
@@ -155,7 +155,7 @@ if(is.null(settings$thickness) | settings$thickness == FALSE | "character" %in% 
     if (file.exists(settings$thickness)) {
       params <- add_thickness(file = settings$thickness,
                               id_col = 5,
-                              thick_col = 7,
+                              thick_col = 9,
                               parameters = params)
     } else {
       stop("The file defined in `settings.yaml` does not exist.")
@@ -181,7 +181,7 @@ if(is.null(settings$accumulation) | settings$accumulation == FALSE | "character"
     if (file.exists(settings$accumulation)) {
       params <- add_accumulation(file = settings$accumulation,
                               id_col = 5,
-                              accum_col = 6,
+                              accum_col = 8,
                               parameters = params)
     } else {
       stop("The file defined in `settings.yaml` does not exist.")
@@ -207,10 +207,15 @@ Here we begin to generate the `csv` files for the cores to allow Bacon to run.  
 ```{r write_agefiles, echo = TRUE, results='hide'}
 
 ageorder <- get_table('agetypes')
+depthfile <- readr::read_csv(settings$topdepth) %>% as.data.frame
+topdepthfile <- depthfile$topdepth
+botdepthfile <- depthfile$botdepth
 
 for (i in 1:nrow(params)) {
 
   params[i, ] <- build_agefiles(param = params[i,],
+                                topdepth = topdepthfile[i],
+                                botdepth = botdepthfile[i],
                                 ageorder = ageorder,
                                 datasets = dataset_list,
                                 downloads = downloads,
